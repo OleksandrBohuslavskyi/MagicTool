@@ -1,0 +1,2 @@
+# MagicTool
+Test project
