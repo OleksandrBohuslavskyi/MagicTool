@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -10,7 +9,7 @@ namespace MagicTool
         private readonly IMagic _iMagic;
         private readonly string _path;
         private readonly List<string> _pathList = new List<string>();
-        public Worker(string path,IMagic iMagic)
+        public Worker(string path, IMagic iMagic)
         {
             _path = path;
             _iMagic = iMagic;
@@ -37,14 +36,18 @@ namespace MagicTool
             {
                 // ignored
             }
-        } 
+        }
 
-        public void Write()
+        public string Write()
         {
-            foreach (var pathLine in _pathList)
+            string outputFilePath = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetRandomFileName() + ".txt";
+            using (TextWriter tw = new StreamWriter(outputFilePath))
             {
-                Console.WriteLine(pathLine);
+                foreach (var s in _pathList)
+                    tw.WriteLine(s);
             }
+
+            return outputFilePath;
         }
     }
 }

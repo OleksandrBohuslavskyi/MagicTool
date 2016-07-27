@@ -6,7 +6,7 @@ namespace MagicTool
     {
         public string DoMagic(string path)
         {
-            return path;
+            return path + @" /";
         }
 
         public bool IsValid(string path)

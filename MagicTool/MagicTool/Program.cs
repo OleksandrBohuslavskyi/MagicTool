@@ -10,9 +10,9 @@ namespace MagicTool
             if (args.Length <2)
             {
 #if DEBUG
-                #region test
+                #region DebugCode
                 var path = @"C:\temp\";
-                var command = "cpp";
+                var command = "all";
                 Worker worker;
                 switch (command)
                 {
@@ -34,10 +34,13 @@ namespace MagicTool
                         return;
                 }
                 worker.Do();
-                worker.Write();
+                var resultFile = worker.Write();
+                System.Diagnostics.Process.Start(resultFile);
+                Console.WriteLine("File created by path: " + resultFile);
+
                 #endregion
 #endif
-                //Console.WriteLine("Invalid arguments!");
+                Console.WriteLine("Invalid arguments!");
             }
             else
             {
@@ -63,9 +66,10 @@ namespace MagicTool
                             Console.WriteLine("Invalid command argument!");
                             return;
                     }
-
                     worker.Do();
-                    worker.Write();
+                    var resultFile = worker.Write();
+                    System.Diagnostics.Process.Start(resultFile);
+                    Console.WriteLine("File created by path: " + resultFile);
                 }
                 else
                 {
@@ -73,8 +77,9 @@ namespace MagicTool
                 }
             }
 
-            Console.WriteLine("Press any button to stop process");
-            Console.ReadKey();
+            Console.WriteLine("Press Enter to close window");
+
+            Console.ReadLine();
         }
     }
 }
