@@ -1,0 +1,9 @@
+D:\GIT\TestProjects\MagicTool\MagicTests\bin\Debug\MagicTests.dll
+D:\GIT\TestProjects\MagicTool\MagicTests\bin\Debug\MagicTests.pdb
+D:\GIT\TestProjects\MagicTool\MagicTests\bin\Debug\MagicTool.exe
+D:\GIT\TestProjects\MagicTool\MagicTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\GIT\TestProjects\MagicTool\MagicTests\bin\Debug\MagicTool.pdb
+D:\GIT\TestProjects\MagicTool\MagicTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+D:\GIT\TestProjects\MagicTool\MagicTests\obj\Debug\MagicTests.csprojResolveAssemblyReference.cache
+D:\GIT\TestProjects\MagicTool\MagicTests\obj\Debug\MagicTests.dll
+D:\GIT\TestProjects\MagicTool\MagicTests\obj\Debug\MagicTests.pdb
