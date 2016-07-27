@@ -1,0 +1,5 @@
+D:\GIT\TestProjects\MagicTool\MagicTool\MagicTool\bin\Release\MagicTool.exe.config
+D:\GIT\TestProjects\MagicTool\MagicTool\MagicTool\bin\Release\MagicTool.exe
+D:\GIT\TestProjects\MagicTool\MagicTool\MagicTool\bin\Release\MagicTool.pdb
+D:\GIT\TestProjects\MagicTool\MagicTool\MagicTool\obj\Release\MagicTool.exe
+D:\GIT\TestProjects\MagicTool\MagicTool\MagicTool\obj\Release\MagicTool.pdb
