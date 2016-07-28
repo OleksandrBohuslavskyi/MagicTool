@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace MagicTool
 {
@@ -12,7 +13,7 @@ namespace MagicTool
 #if DEBUG
                 #region DebugCode
                 var path = @"C:\temp\";
-                var command = "reversed1";
+                var command = "reversed2";
                 Worker worker;
                 switch (command)
                 {
@@ -33,7 +34,7 @@ namespace MagicTool
                         Console.WriteLine("Invalid command argument!");
                         return;
                 }
-                worker.Do();
+                Task.WaitAll( worker.Do());
                 var resultFile = worker.Write();
                 Console.WriteLine("File created by path: " + resultFile);
                 Console.WriteLine("Do you want to open this file?\nType: Yes - y, No - n and press enter");
@@ -71,7 +72,7 @@ namespace MagicTool
                             return;
                     }
 
-                    worker.Do();
+                    Task.WaitAll(worker.Do());
                     var resultFile = worker.Write();
                     Console.WriteLine("File created by path: " + resultFile);
                     Console.WriteLine("Do you want to open this file?\nType: Yes - y, No - n and press enter");

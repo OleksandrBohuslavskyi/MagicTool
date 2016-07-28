@@ -1,8 +1,8 @@
 ﻿using MagicTool;
-using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ToolTests
 {
@@ -42,7 +42,6 @@ namespace ToolTests
         [TestMethod()]
         public void CppMagicDoMagicTest_fixedValues()
         {
-            var tempFilePath = Path.GetTempFileName();
             Assert.AreEqual(" /", new CppMagic().DoMagic(""));
         }
 
@@ -76,7 +75,7 @@ namespace ToolTests
         [TestMethod()]
         public void Reverse1MagicDoMagicTest_fixedValues()
         {
-           Assert.AreEqual("check/test", new Reverse1Magic().DoMagic("test/check"));
+           Assert.AreEqual(@"\check\test", new Reverse1Magic().DoMagic(@"test\check"));
         }
 
         [TestMethod()]
@@ -100,7 +99,7 @@ namespace ToolTests
         [TestMethod()]
         public void Reverse2MagicDoMagicTest_fixedValues()
         {
-            Assert.AreEqual("check/test", new Reverse1Magic().DoMagic("test/check"));
+            Assert.AreEqual(@"kcehc\tset\", new Reverse2Magic().DoMagic(@"\test\check"));
         }
 
         [TestMethod()]
@@ -119,36 +118,36 @@ namespace ToolTests
         [TestMethod()]
         public void WorkerAllNotNullTest()
         {
-            Worker worker = new Worker(Path.GetTempPath(), new AllMagic());
+            var worker = new Worker(Path.GetTempPath(), new AllMagic());
             Assert.IsNotNull(worker);
         }
 
         [TestMethod()]
         public void WorkerCppNotNullTest()
         {
-            Worker worker = new Worker(Path.GetTempPath(), new CppMagic());
+            var worker = new Worker(Path.GetTempPath(), new CppMagic());
             Assert.IsNotNull(worker);
         }
 
         [TestMethod()]
         public void WorkerReverse1NotNullTest()
         {
-            Worker worker = new Worker(Path.GetTempPath(), new Reverse1Magic());
+            var worker = new Worker(Path.GetTempPath(), new Reverse1Magic());
             Assert.IsNotNull(worker);
         }
 
         [TestMethod()]
         public void WorkerReverse2NotNullTest()
         {
-            Worker worker = new Worker(Path.GetTempPath(), new Reverse2Magic());
+            var worker = new Worker(Path.GetTempPath(), new Reverse2Magic());
             Assert.IsNotNull(worker);
         }
 
         [TestMethod()]
         public void WriteAllFileExistsTest()
         {
-            Worker worker = new Worker(Path.GetTempPath(), new AllMagic());
-            worker.Do();
+            var worker = new Worker(Path.GetTempPath(), new AllMagic());
+            Task.WaitAll(worker.Do());
 
             Assert.AreEqual(true, File.Exists(worker.Write()));
         }
@@ -156,8 +155,8 @@ namespace ToolTests
         [TestMethod()]
         public void WriteCppFileExistsTest()
         {
-            Worker worker = new Worker(Path.GetTempPath(), new CppMagic());
-            worker.Do();
+            var worker = new Worker(Path.GetTempPath(), new CppMagic());
+            Task.WaitAll(worker.Do());
 
             Assert.AreEqual(true, File.Exists(worker.Write()));
         }
@@ -165,8 +164,8 @@ namespace ToolTests
         [TestMethod()]
         public void WriteReverse1FileExistsTest()
         {
-            Worker worker = new Worker(Path.GetTempPath(), new Reverse1Magic());
-            worker.Do();
+            var worker = new Worker(Path.GetTempPath(), new Reverse1Magic());
+            Task.WaitAll(worker.Do());
 
             Assert.AreEqual(true, File.Exists(worker.Write()));
         }
@@ -174,8 +173,8 @@ namespace ToolTests
         [TestMethod()]
         public void WriteReverse2FileExistsTest()
         {
-            Worker worker = new Worker(Path.GetTempPath(), new Reverse2Magic());
-            worker.Do();
+            var worker = new Worker(Path.GetTempPath(), new Reverse2Magic());
+            Task.WaitAll(worker.Do());
 
             Assert.AreEqual(true, File.Exists(worker.Write()));
         }
@@ -183,8 +182,8 @@ namespace ToolTests
         [TestMethod()]
         public void DoTest()
         {
-            Assert.Fail();
+            var worker = new Worker(Path.GetTempPath(), new Reverse2Magic());
+            Assert.AreEqual(typeof(Task),worker.Do().GetType().BaseType);
         }
     }
 }
-

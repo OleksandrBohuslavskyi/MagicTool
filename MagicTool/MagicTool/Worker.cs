@@ -17,9 +17,9 @@ namespace MagicTool
             _iMagic = iMagic;
         }
 
-        public async void Do()
+        public async Task Do()
         {
-            await DoAsync();
+            await DoAsync();   
         }
 
         private Task DoAsync()
@@ -56,9 +56,7 @@ namespace MagicTool
             using (TextWriter tw = new StreamWriter(outputFilePath))
             {
                 foreach (var s in _pathList)
-                {
                     tw.WriteLine(s);
-                }
             }
 
             return outputFilePath;
