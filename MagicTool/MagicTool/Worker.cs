@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MagicTool
 {
@@ -9,14 +10,25 @@ namespace MagicTool
         private readonly IMagic _iMagic;
         private readonly string _path;
         private readonly List<string> _pathList = new List<string>();
+
         public Worker(string path, IMagic iMagic)
         {
             _path = path;
             _iMagic = iMagic;
         }
-        public void Do()
+
+        public async void Do()
         {
-            Inside(_path);
+            await DoAsync();
+        }
+
+        private Task DoAsync()
+        {
+            return Task.Run(() =>
+            {
+                Inside(_path);
+            }
+           );
         }
 
         private void Inside(string folderPath)
@@ -29,7 +41,7 @@ namespace MagicTool
                 }
                 foreach (var directory in Directory.GetDirectories(folderPath))
                 {
-                    Inside(directory);
+                     Inside(directory);
                 }
             }
             catch
@@ -40,11 +52,13 @@ namespace MagicTool
 
         public string Write()
         {
-            string outputFilePath = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetRandomFileName() + ".txt";
+            var outputFilePath = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetRandomFileName() + ".txt";
             using (TextWriter tw = new StreamWriter(outputFilePath))
             {
                 foreach (var s in _pathList)
+                {
                     tw.WriteLine(s);
+                }
             }
 
             return outputFilePath;

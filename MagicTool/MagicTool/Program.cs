@@ -7,12 +7,12 @@ namespace MagicTool
     {
         static void Main(string[] args)
         {
-            if (args.Length <2)
+            if (args.Length < 2)
             {
 #if DEBUG
                 #region DebugCode
                 var path = @"C:\temp\";
-                var command = "all";
+                var command = "reversed1";
                 Worker worker;
                 switch (command)
                 {
@@ -35,9 +35,13 @@ namespace MagicTool
                 }
                 worker.Do();
                 var resultFile = worker.Write();
-                System.Diagnostics.Process.Start(resultFile);
                 Console.WriteLine("File created by path: " + resultFile);
-
+                Console.WriteLine("Do you want to open this file?\nType: Yes - y, No - n and press enter");
+                var answer = Console.ReadLine();
+                if (!string.IsNullOrEmpty(answer) && answer.ToLower() == "y")
+                {
+                    System.Diagnostics.Process.Start(resultFile);
+                }
                 #endregion
 #endif
                 Console.WriteLine("Invalid arguments!");
@@ -50,7 +54,7 @@ namespace MagicTool
                     switch (args[1].ToLower())
                     {
                         case "all":
-                            worker = new Worker(args[0],new AllMagic());
+                            worker = new Worker(args[0], new AllMagic());
                             break;
                         case "cpp":
                             worker = new Worker(args[0], new CppMagic());
@@ -66,10 +70,17 @@ namespace MagicTool
                             Console.WriteLine("Invalid command argument!");
                             return;
                     }
+
                     worker.Do();
                     var resultFile = worker.Write();
-                    System.Diagnostics.Process.Start(resultFile);
                     Console.WriteLine("File created by path: " + resultFile);
+                    Console.WriteLine("Do you want to open this file?\nType: Yes - y, No - n and press enter");
+
+                    var answer = Console.ReadLine();
+                    if (!string.IsNullOrEmpty(answer) && answer.ToLower() == "y")
+                    {
+                        System.Diagnostics.Process.Start(resultFile);
+                    }
                 }
                 else
                 {
@@ -78,7 +89,6 @@ namespace MagicTool
             }
 
             Console.WriteLine("Press Enter to close window");
-
             Console.ReadLine();
         }
     }
