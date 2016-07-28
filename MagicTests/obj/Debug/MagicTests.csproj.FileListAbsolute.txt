@@ -7,3 +7,5 @@ D:\GIT\TestProjects\MagicTool\MagicTests\bin\Debug\Microsoft.VisualStudio.Qualit
 D:\GIT\TestProjects\MagicTool\MagicTests\obj\Debug\MagicTests.csprojResolveAssemblyReference.cache
 D:\GIT\TestProjects\MagicTool\MagicTests\obj\Debug\MagicTests.dll
 D:\GIT\TestProjects\MagicTool\MagicTests\obj\Debug\MagicTests.pdb
+D:\GIT\TestProjects\MagicTool\MagicTests\bin\Debug\MagicTests.dll.CodeAnalysisLog.xml
+D:\GIT\TestProjects\MagicTool\MagicTests\bin\Debug\MagicTests.dll.lastcodeanalysissucceeded

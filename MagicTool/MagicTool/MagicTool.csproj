@@ -46,6 +46,7 @@
     <Compile Include="AllMagic.cs" />
     <Compile Include="CppMagic.cs" />
     <Compile Include="IMagic.cs" />
+    <Compile Include="MagicFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reverse1Magic.cs" />

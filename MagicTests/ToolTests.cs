@@ -7,6 +7,66 @@ using System.Threading.Tasks;
 namespace ToolTests
 {
     [TestClass()]
+    public class MagicFactoryTests
+    {
+        [TestMethod()]
+        public void MagicFactoryAllIsNotNullMagicFactoryTest()
+        {
+            var factory = new MagicFactory("all");
+            Assert.IsNotNull(factory);
+        }
+
+        [TestMethod()]
+        public void MagicFactoryCppIsNotNullMagicFactoryTest()
+        {
+            var factory = new MagicFactory("cpp");
+            Assert.IsNotNull(factory);
+        }
+
+        [TestMethod()]
+        public void MagicFactoryReverse1IsNotNullMagicFactoryTest()
+        {
+            var factory = new MagicFactory("reversed1");
+            Assert.IsNotNull(factory);
+        }
+
+        [TestMethod()]
+        public void MagicFactoryReverse2IsNotNullMagicFactoryTest()
+        {
+            var factory = new MagicFactory("reversed2");
+            Assert.IsNotNull(factory);
+        }
+
+        [TestMethod()]
+        public void MagicFactoryAllTypeMagicFactoryTest()
+        {
+            var factory = new MagicFactory("all").MakeMagicChoise();
+            Assert.AreEqual(new AllMagic().GetType(), factory.GetType());
+        }
+
+        [TestMethod()]
+        public void MagicFactoryCppTypeMagicFactoryTest()
+        {
+            var factory = new MagicFactory("cpp").MakeMagicChoise();
+            Assert.AreEqual(new CppMagic().GetType(), factory.GetType());
+        }
+
+        [TestMethod()]
+        public void MagicFactoryReverse1TypeMagicFactoryTest()
+        {
+            var factory = new MagicFactory("reversed1").MakeMagicChoise();
+            Assert.AreEqual(new Reverse1Magic().GetType(), factory.GetType());
+        }
+
+        [TestMethod()]
+        public void MagicFactoryReverse2TypeMagicFactoryTest()
+        {
+            var factory = new MagicFactory("reversed2").MakeMagicChoise();
+            Assert.AreEqual(new Reverse2Magic().GetType(), factory.GetType());
+        }
+    }
+
+    [TestClass()]
     public class AllMagicTests
     {
         [TestMethod()]
@@ -75,7 +135,7 @@ namespace ToolTests
         [TestMethod()]
         public void Reverse1MagicDoMagicTest_fixedValues()
         {
-           Assert.AreEqual(@"\check\test", new Reverse1Magic().DoMagic(@"test\check"));
+            Assert.AreEqual(@"\check\test", new Reverse1Magic().DoMagic(@"test\check"));
         }
 
         [TestMethod()]
@@ -118,72 +178,77 @@ namespace ToolTests
         [TestMethod()]
         public void WorkerAllNotNullTest()
         {
-            var worker = new Worker(Path.GetTempPath(), new AllMagic());
+            var worker = new Worker(Path.GetTempPath(), "result.txt", new AllMagic());
             Assert.IsNotNull(worker);
         }
 
         [TestMethod()]
         public void WorkerCppNotNullTest()
         {
-            var worker = new Worker(Path.GetTempPath(), new CppMagic());
+            var worker = new Worker(Path.GetTempPath(), "result.txt", new CppMagic());
             Assert.IsNotNull(worker);
         }
 
         [TestMethod()]
         public void WorkerReverse1NotNullTest()
         {
-            var worker = new Worker(Path.GetTempPath(), new Reverse1Magic());
+            var worker = new Worker(Path.GetTempPath(), "result.txt", new Reverse1Magic());
             Assert.IsNotNull(worker);
         }
 
         [TestMethod()]
         public void WorkerReverse2NotNullTest()
         {
-            var worker = new Worker(Path.GetTempPath(), new Reverse2Magic());
+            var worker = new Worker(Path.GetTempPath(), "result.txt", new Reverse2Magic());
             Assert.IsNotNull(worker);
         }
 
         [TestMethod()]
         public void WriteAllFileExistsTest()
         {
-            var worker = new Worker(Path.GetTempPath(), new AllMagic());
+            var filepath = @"res.txt";
+            var worker = new Worker(Path.GetTempPath(), filepath, new AllMagic());
             Task.WaitAll(worker.Do());
+            worker.Write();
 
-            Assert.AreEqual(true, File.Exists(worker.Write()));
+            Assert.AreEqual(true, File.Exists(filepath));
         }
 
         [TestMethod()]
         public void WriteCppFileExistsTest()
         {
-            var worker = new Worker(Path.GetTempPath(), new CppMagic());
+            var filepath = @"res.txt";
+            var worker = new Worker(Path.GetTempPath(), filepath, new CppMagic());
             Task.WaitAll(worker.Do());
-
-            Assert.AreEqual(true, File.Exists(worker.Write()));
+            worker.Write();
+            Assert.AreEqual(true, File.Exists(filepath));
         }
 
         [TestMethod()]
         public void WriteReverse1FileExistsTest()
         {
-            var worker = new Worker(Path.GetTempPath(), new Reverse1Magic());
+            var filepath = @"res.txt";
+            var worker = new Worker(Path.GetTempPath(), filepath, new Reverse1Magic());
             Task.WaitAll(worker.Do());
-
-            Assert.AreEqual(true, File.Exists(worker.Write()));
+            worker.Write();
+            Assert.AreEqual(true, File.Exists(filepath));
         }
 
         [TestMethod()]
         public void WriteReverse2FileExistsTest()
         {
-            var worker = new Worker(Path.GetTempPath(), new Reverse2Magic());
+            var filepath = @"res.txt";
+            var worker = new Worker(Path.GetTempPath(), @"res.txt", new Reverse2Magic());
             Task.WaitAll(worker.Do());
-
-            Assert.AreEqual(true, File.Exists(worker.Write()));
+            worker.Write();
+            Assert.AreEqual(true, File.Exists(filepath));
         }
 
         [TestMethod()]
         public void DoTest()
         {
-            var worker = new Worker(Path.GetTempPath(), new Reverse2Magic());
-            Assert.AreEqual(typeof(Task),worker.Do().GetType().BaseType);
+            var worker = new Worker(Path.GetTempPath(), @"res.txt", new Reverse2Magic());
+            Assert.AreEqual(typeof(Task), worker.Do().GetType().BaseType);
         }
     }
 }

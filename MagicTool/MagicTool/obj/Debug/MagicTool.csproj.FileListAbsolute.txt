@@ -5,3 +5,5 @@ D:\GIT\TestProjects\MagicTool\MagicTool\MagicTool\bin\Debug\MagicTool.pdb
 D:\GIT\TestProjects\MagicTool\MagicTool\MagicTool\obj\Debug\MagicTool.csprojResolveAssemblyReference.cache
 D:\GIT\TestProjects\MagicTool\MagicTool\MagicTool\obj\Debug\MagicTool.exe
 D:\GIT\TestProjects\MagicTool\MagicTool\MagicTool\obj\Debug\MagicTool.pdb
+D:\GIT\TestProjects\MagicTool\MagicTool\MagicTool\bin\Debug\MagicTool.exe.CodeAnalysisLog.xml
+D:\GIT\TestProjects\MagicTool\MagicTool\MagicTool\bin\Debug\MagicTool.exe.lastcodeanalysissucceeded

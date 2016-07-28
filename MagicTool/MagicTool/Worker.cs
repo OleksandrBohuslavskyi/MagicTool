@@ -9,17 +9,19 @@ namespace MagicTool
     {
         private readonly IMagic _iMagic;
         private readonly string _path;
+        private readonly string _resultFilePath;
         private readonly List<string> _pathList = new List<string>();
 
-        public Worker(string path, IMagic iMagic)
+        public Worker(string path, string resultFilePath, IMagic iMagic)
         {
             _path = path;
+            _resultFilePath = resultFilePath;
             _iMagic = iMagic;
         }
 
         public async Task Do()
         {
-            await DoAsync();   
+            await DoAsync();
         }
 
         private Task DoAsync()
@@ -41,7 +43,7 @@ namespace MagicTool
                 }
                 foreach (var directory in Directory.GetDirectories(folderPath))
                 {
-                     Inside(directory);
+                    Inside(directory);
                 }
             }
             catch
@@ -50,16 +52,15 @@ namespace MagicTool
             }
         }
 
-        public string Write()
+        public void Write()
         {
-            var outputFilePath = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetRandomFileName() + ".txt";
-            using (TextWriter tw = new StreamWriter(outputFilePath))
+            using (TextWriter tw = new StreamWriter(_resultFilePath))
             {
                 foreach (var s in _pathList)
+                {
                     tw.WriteLine(s);
+                }
             }
-
-            return outputFilePath;
         }
     }
 }

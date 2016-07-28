@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using static System.String;
 
 namespace MagicTool
 {
@@ -8,79 +9,72 @@ namespace MagicTool
     {
         static void Main(string[] args)
         {
-            if (args.Length < 2)
+            if (args.Length < 3)
             {
 #if DEBUG
                 #region DebugCode
                 var path = @"C:\temp\";
                 var command = "reversed2";
+                var resultFilePath = @"result.txt";
                 Worker worker;
-                switch (command)
+                try
                 {
-                    case "all":
-                        worker = new Worker(path, new AllMagic());
-                        break;
-                    case "cpp":
-                        worker = new Worker(path, new CppMagic());
-                        break;
-                    case "reversed1":
-                        worker = new Worker(path, new Reverse1Magic());
-                        break;
-                    case "reversed2":
-                        worker = new Worker(path, new Reverse2Magic());
-                        break;
-                    default:
-                        Console.WriteLine(command);
-                        Console.WriteLine("Invalid command argument!");
-                        return;
+                    worker = new Worker(path, resultFilePath, new MagicFactory(command).MakeMagicChoise());
                 }
-                Task.WaitAll( worker.Do());
-                var resultFile = worker.Write();
-                Console.WriteLine("File created by path: " + resultFile);
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine(e.Message + " " + e.ParamName);
+                    Console.WriteLine("Press Enter to close window");
+                    Console.ReadLine();
+                    return;
+                }
+                Task.WaitAll(worker.Do());
+                worker.Write();
+                Console.WriteLine("File created by path: " + Path.GetFullPath(resultFilePath));
                 Console.WriteLine("Do you want to open this file?\nType: Yes - y, No - n and press enter");
                 var answer = Console.ReadLine();
-                if (!string.IsNullOrEmpty(answer) && answer.ToLower() == "y")
+                if (!IsNullOrEmpty(answer) && answer.ToLower() == "y")
                 {
-                    System.Diagnostics.Process.Start(resultFile);
+                    System.Diagnostics.Process.Start(Path.GetFullPath(resultFilePath));
                 }
                 #endregion
-#endif
+#else
                 Console.WriteLine("Invalid arguments!");
-            }
+#endif
+                }
             else
             {
                 if (Directory.Exists(args[0]))
                 {
-                    Worker worker;
-                    switch (args[1].ToLower())
+                    if (IsNullOrEmpty(args[2]) && !Path.HasExtension(args[2]))
                     {
-                        case "all":
-                            worker = new Worker(args[0], new AllMagic());
-                            break;
-                        case "cpp":
-                            worker = new Worker(args[0], new CppMagic());
-                            break;
-                        case "reversed1":
-                            worker = new Worker(args[0], new Reverse1Magic());
-                            break;
-                        case "reversed2":
-                            worker = new Worker(args[0], new Reverse2Magic());
-                            break;
-                        default:
-                            Console.WriteLine(args[1]);
-                            Console.WriteLine("Invalid command argument!");
-                            return;
+                        Console.WriteLine("Invalid output file argument");
                     }
-
-                    Task.WaitAll(worker.Do());
-                    var resultFile = worker.Write();
-                    Console.WriteLine("File created by path: " + resultFile);
-                    Console.WriteLine("Do you want to open this file?\nType: Yes - y, No - n and press enter");
-
-                    var answer = Console.ReadLine();
-                    if (!string.IsNullOrEmpty(answer) && answer.ToLower() == "y")
+                    else
                     {
-                        System.Diagnostics.Process.Start(resultFile);
+                        Worker worker;
+                        try
+                        {
+                            worker = new Worker(args[0], args[2], new MagicFactory(args[1]).MakeMagicChoise());
+                        }
+                        catch (ArgumentException e)
+                        {
+                            Console.WriteLine(e.Message + " " + e.ParamName);
+                            Console.WriteLine("Press Enter to close window");
+                            Console.ReadLine();
+                            return;
+                        }
+
+                        Task.WaitAll(worker.Do());
+                        worker.Write();
+                        Console.WriteLine("File created by path: " + Path.GetFullPath(args[2]));
+                        Console.WriteLine("Do you want to open this file?\nType: Yes - y, No - n and press enter");
+
+                        var answer = Console.ReadLine();
+                        if (!IsNullOrEmpty(answer) && answer.ToLower() == "y")
+                        {
+                            System.Diagnostics.Process.Start(Path.GetFullPath(args[2]));
+                        }
                     }
                 }
                 else
