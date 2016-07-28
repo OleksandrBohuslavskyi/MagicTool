@@ -1,8 +1,8 @@
 ﻿namespace MagicTool
 {
-    public interface IMagic
+    public interface IPathCollector
     {
         bool IsValid(string path);
-        string DoMagic(string path);
+        string Collect(string path);
     }
 }

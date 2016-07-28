@@ -2,9 +2,9 @@
 
 namespace MagicTool
 {
-    public class CppMagic : IMagic
+    public class CppPathCollector : IPathCollector
     {
-        public string DoMagic(string path)
+        public string Collect(string path)
         {
             return path + @" /";
         }

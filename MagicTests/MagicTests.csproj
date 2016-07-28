@@ -50,9 +50,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="MagicFactoryTests.cs" />
-    <Compile Include="ToolTests.cs" />
+    <Compile Include="AllCollectorTests.cs" />
+    <Compile Include="CollectorFactoryTests.cs" />
+    <Compile Include="CppCollectorTests.cs" />
+    <Compile Include="Reverse1CollectorTests.cs" />
+    <Compile Include="Reverse2CollectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MagicTool\MagicTool\MagicTool.csproj">

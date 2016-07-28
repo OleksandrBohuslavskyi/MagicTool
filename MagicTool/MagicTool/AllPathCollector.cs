@@ -1,8 +1,8 @@
 ﻿namespace MagicTool
 {
-    public class AllMagic : IMagic
+    public class AllPathCollector : IPathCollector
     {
-        public string DoMagic(string path)
+        public string Collect(string path)
         {
             return path;
         }

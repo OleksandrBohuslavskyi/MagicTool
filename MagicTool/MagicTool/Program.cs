@@ -1,65 +1,34 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using static System.IO.Directory;
 using static System.String;
 
 namespace MagicTool
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            if (args.Length < 3)
+            if (args.Length >= 3)
             {
-#if DEBUG
-                #region DebugCode
-                var path = @"C:\temp\";
-                var command = "reversed2";
-                var resultFilePath = @"result.txt";
-                Worker worker;
-                try
+                var path = args[0];
+                var command = args[1];
+                var outputFilePath = args[2];
+                Console.WriteLine("Comand line: {0} {1} {2}", path, command, outputFilePath);
+
+                if (Exists(path))
                 {
-                    worker = new Worker(path, resultFilePath, new MagicFactory(command).MakeMagicChoise());
-                }
-                catch (ArgumentException e)
-                {
-                    Console.WriteLine(e.Message + " " + e.ParamName);
-                    Console.WriteLine("Press Enter to close window");
-                    Console.ReadLine();
-                    return;
-                }
-                Task.WaitAll(worker.Do());
-                worker.Write();
-                Console.WriteLine("File created by path: " + Path.GetFullPath(resultFilePath));
-                Console.WriteLine("Do you want to open this file?\nType: Yes - y, No - n and press enter");
-                var answer = Console.ReadLine();
-                if (!IsNullOrEmpty(answer) && answer.ToLower() == "y")
-                {
-                    System.Diagnostics.Process.Start(Path.GetFullPath(resultFilePath));
-                }
-                #endregion
-#else
-                Console.WriteLine("Invalid arguments!");
-#endif
-                }
-            else
-            {
-                if (Directory.Exists(args[0]))
-                {
-                    if (IsNullOrEmpty(args[2]) && !Path.HasExtension(args[2]))
-                    {
-                        Console.WriteLine("Invalid output file argument");
-                    }
-                    else
+                    if (!IsNullOrEmpty(outputFilePath) || Path.HasExtension(outputFilePath))
                     {
                         Worker worker;
                         try
                         {
-                            worker = new Worker(args[0], args[2], new MagicFactory(args[1]).MakeMagicChoise());
+                            worker = new Worker(path, outputFilePath, new CollectorFactory(command).MakeAChoise());
                         }
                         catch (ArgumentException e)
                         {
-                            Console.WriteLine(e.Message + " " + e.ParamName);
+                            Console.WriteLine("{0} {1}", e.Message, e.ParamName);
                             Console.WriteLine("Press Enter to close window");
                             Console.ReadLine();
                             return;
@@ -67,14 +36,18 @@ namespace MagicTool
 
                         Task.WaitAll(worker.Do());
                         worker.Write();
-                        Console.WriteLine("File created by path: " + Path.GetFullPath(args[2]));
+                        Console.WriteLine("File created by path: {0}", Path.GetFullPath(outputFilePath));
                         Console.WriteLine("Do you want to open this file?\nType: Yes - y, No - n and press enter");
 
                         var answer = Console.ReadLine();
-                        if (!IsNullOrEmpty(answer) && answer.ToLower() == "y")
+                        if (!IsNullOrEmpty(answer) && answer.Equals("y", StringComparison.OrdinalIgnoreCase))
                         {
-                            System.Diagnostics.Process.Start(Path.GetFullPath(args[2]));
+                            System.Diagnostics.Process.Start(Path.GetFullPath(outputFilePath));
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid output file argument");
                     }
                 }
                 else
@@ -82,7 +55,10 @@ namespace MagicTool
                     Console.WriteLine("Invalid path argument!");
                 }
             }
-
+            else
+            {
+                Console.WriteLine("Invalid arguments!");
+            }
             Console.WriteLine("Press Enter to close window");
             Console.ReadLine();
         }

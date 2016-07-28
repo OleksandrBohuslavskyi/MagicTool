@@ -7,16 +7,17 @@ namespace MagicTool
 {
     public class Worker
     {
-        private readonly IMagic _iMagic;
+        private readonly IPathCollector _iPathCollector;
         private readonly string _path;
         private readonly string _resultFilePath;
-        private readonly List<string> _pathList = new List<string>();
+        private readonly List<string> _pathList;
 
-        public Worker(string path, string resultFilePath, IMagic iMagic)
+        public Worker(string path, string resultFilePath, IPathCollector iPathCollector)
         {
             _path = path;
             _resultFilePath = resultFilePath;
-            _iMagic = iMagic;
+            _iPathCollector = iPathCollector;
+            _pathList = new List<string>();
         }
 
         public async Task Do()
@@ -29,18 +30,18 @@ namespace MagicTool
             return Task.Run(() =>
             {
                 Inside(_path);
-            }
-           );
+            });
         }
 
         private void Inside(string folderPath)
         {
             try
             {
-                foreach (var file in Directory.GetFiles(folderPath).Where(file => _iMagic.IsValid(file)))
+                foreach (var file in Directory.GetFiles(folderPath).Where(file => _iPathCollector.IsValid(file)))
                 {
-                    _pathList.Add(_iMagic.DoMagic(file));
+                    _pathList.Add(_iPathCollector.Collect(file));
                 }
+
                 foreach (var directory in Directory.GetDirectories(folderPath))
                 {
                     Inside(directory);
@@ -54,11 +55,11 @@ namespace MagicTool
 
         public void Write()
         {
-            using (TextWriter tw = new StreamWriter(_resultFilePath))
+            using (TextWriter textWriter = new StreamWriter(_resultFilePath))
             {
-                foreach (var s in _pathList)
+                foreach (var path in _pathList)
                 {
-                    tw.WriteLine(s);
+                    textWriter.WriteLine(path);
                 }
             }
         }
